@@ -1,14 +1,12 @@
 package tn.esprit.gestionzoo.entities;
 public class Animal{
-    public String family ; 
     public String name ; 
     public int age ; 
     public boolean isMammal ;
     
 
 
-    public Animal (String family, String name, int age, boolean isMammal){
-        this.family = family ; 
+    public Animal (String name, int age, boolean isMammal){
         this.name = name ; 
         setAge(age); 
         this.isMammal = isMammal ; 
@@ -29,7 +27,7 @@ public class Animal{
 
 
     public String toString(){
-        return family + " " + name + " " + age + " " + isMammal ;
+        return  name + " " + age + " " + isMammal ;
     }
 
 
