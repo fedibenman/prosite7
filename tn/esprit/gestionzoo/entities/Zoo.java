@@ -20,17 +20,6 @@ public class Zoo{
   }
 
 
-  public boolean addAnimal(Animal animal){
-    
-    if (nbAnimal+1 > nbrCages)
-    return false  ;
-    if (searchAnimal(animal) != -1)
-    return false  ; 
-    animals[nbAnimal] = animal ; 
-    nbAnimal++ ;
-    return true  ;
-  }
-
 
   public String getName() {
     return name;
@@ -45,17 +34,29 @@ public void setName(String name) {
     }
 }
 
-
-  int searchAnimal(Animal animal){
-
-    for (int i = 0 ; i < nbAnimal ; i++){
-      System.err.println("the int" + i + "animal" + animals[i]);
-      if (animals[i].name.equals(animal.name))
-      return i ;
-    }
-    return -1 ;
+public void addAnimal(Animal animal) throws ZooFullException, InvalidAgeException {
+  if (animal.age < 0) {
+      throw new InvalidAgeException("Animal age cannot be negative: " + animal.age);
   }
+  if (nbAnimal >= nbrCages) {
+      throw new ZooFullException("The zoo is full. Cannot add more animals.");
+  }
+  if (searchAnimal(animal) != -1) {
+      System.out.println("Animal already exists in the zoo.");
+  } else {
+      animals[nbAnimal] = animal;
+      nbAnimal++;
+  }
+  System.out.println("Number of animals after addition: " + nbAnimal);
+}
 
+int searchAnimal(Animal animal) {
+  for (int i = 0; i < nbAnimal; i++) {
+      if (animals[i] != null && animals[i].name.equals(animal.name))
+          return i;
+  }
+  return -1;
+}
   boolean isZooFull(){
 
     if (nbAnimal == nbrCages)

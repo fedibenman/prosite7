@@ -3,35 +3,39 @@ package tn.esprit.gestionzoo.main;
 import tn.esprit.gestionzoo.entities.Animal;
 import tn.esprit.gestionzoo.entities.Aquatic;
 import tn.esprit.gestionzoo.entities.Zoo;
+import tn.esprit.gestionzoo.entities.ZooFullException;
 import tn.esprit.gestionzoo.entities.Penguin;
 import tn.esprit.gestionzoo.entities.Dolphin;
+import tn.esprit.gestionzoo.entities.InvalidAgeException;
 
 public class ZooManagement {
     public static void main(String[] args) {
-        // Create a zoo
-        Zoo myzoo = new Zoo("myzoo", "Bizerte", 10);
+        Zoo zoo = new Zoo("City Zoo", "Springfield", 3);
 
-        // Create and add some penguins
-        for (int i = 0; i < 4; i++) {
-            Penguin penguin = new Penguin("Penguin", 5 + i, false, "Arctic", 20.0f + i);
-            myzoo.addAquaticAnimal(penguin);
-            System.out.println(penguin);
-            penguin.swim(); // Test the swim function for penguin
+        try {
+            Animal lion = new Animal("Lion", 5, true);
+            zoo.addAnimal(lion);
+
+            Animal tiger = new Animal("Tiger", 4, true);
+            zoo.addAnimal(tiger);
+
+            Animal bear = new Animal("Bear", 2, true);
+            zoo.addAnimal(bear);
+
+            // This should throw a ZooFullException.
+            Animal elephant = new Animal("Elephant", 6, true);
+            zoo.addAnimal(elephant);
+        } catch (ZooFullException e) {
+            System.out.println(e.getMessage());
+        } catch (InvalidAgeException e) {
+            System.out.println(e.getMessage());
         }
-
-        // Create and add some dolphins
-        for (int i = 0; i < 4; i++) {
-            Dolphin dolphin = new Dolphin("Dolphin", 6 + i, true, "Ocean", 30.0f + i);
-            myzoo.addAquaticAnimal(dolphin);
-            System.out.println(dolphin);
-            dolphin.swim(); // Test the swim function for dolphin
+        try {
+            // This should throw an InvalidAgeException.
+            Animal negativeAgeAnimal = new Animal("Penguin", -3  , true);
+            zoo.addAnimal(negativeAgeAnimal);
+        } catch (ZooFullException | InvalidAgeException e) {
+            System.out.println(e.getMessage());
         }
-
-        // Test the max penguin swimming depth function
-        float maxDepth = myzoo.maxPenguinSwimmingDepth();
-        System.out.println("Maximum swimming depth of penguins: " + maxDepth);
-
-        // Display the number of aquatics by type
-        myzoo.displayNumberOfAquaticsByType();
     }
 }
